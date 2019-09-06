@@ -217,6 +217,38 @@ class GoogleScraper extends Scraper {
     }
 }
 
+class GoogleDirectScraper extends GoogleScraper {
+
+    async load_start_page() {
+
+        log(this.config, 1, 'Using empty startUrl');
+
+        return true;
+    }
+
+    async search_keyword(keyword) {
+        let startUrl = 'https://www.google.com/search?';
+
+        if (this.config.google_settings) {
+            if (this.config.google_settings.google_domain) {
+                startUrl = `https://www.${this.config.google_settings.google_domain}/search?`;
+            } else {
+                startUrl = `https://www.google.com/search?`;
+            }
+
+            for (var key in this.config.google_settings) {
+                if (key !== 'google_domain') {
+                    startUrl += `${key}=${this.config.google_settings[key]}&`
+                }
+            }
+        }
+
+        startUrl += `q=${encodeURIComponent(keyword)}`;
+
+        this.last_response = await this.page.goto(startUrl);
+    }
+}
+
 class GoogleNewsOldScraper extends Scraper {
 
     parse(html) {
@@ -783,6 +815,7 @@ module.exports = {
     GoogleShoppingScraper: GoogleShoppingScraper,
     GoogleNewsOldScraper: GoogleNewsOldScraper,
     GoogleScraper: GoogleScraper,
+    GoogleDirectScraper: GoogleDirectScraper,
     GoogleImageScraper: GoogleImageScraper,
     GoogleNewsScraper: GoogleNewsScraper,
     GoogleMapsScraper: GoogleMapsScraper,

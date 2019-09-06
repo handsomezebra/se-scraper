@@ -39,12 +39,14 @@ function getScraper(search_engine, args) {
     if (typeof search_engine === 'string') {
         return new {
             google: google.GoogleScraper,
+            google_direct: google.GoogleDirectScraper,
             google_news_old: google.GoogleNewsOldScraper,
             google_news: google.GoogleNewsScraper,
             google_image: google.GoogleImageScraper,
             google_maps: google.GoogleMapsScraper,
             google_shopping: google.GoogleShoppingScraper,
             bing: bing.BingScraper,
+            bing_direct: bing.BingDirectScraper,
             bing_news: bing.BingNewsScraper,
             amazon: amazon.AmazonScraper,
             duckduckgo: duckduckgo.DuckduckgoScraper,
@@ -360,7 +362,7 @@ class ScrapeManager {
 
         if (this.config.keywords && this.config.search_engine) {
             log(this.config, 1,
-                `[se-scraper] started at [${(new Date()).toUTCString()}] and scrapes ${this.config.search_engine_name} with ${this.config.keywords.length} keywords on ${this.config.num_pages} pages each.`)
+                `se-scraper started and scrapes ${this.config.search_engine_name} with ${this.config.keywords.length} keywords on ${this.config.num_pages} pages each.`)
         }
 
         if (this.pluggable) {

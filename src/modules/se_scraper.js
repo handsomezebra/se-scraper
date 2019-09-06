@@ -177,9 +177,8 @@ module.exports = class Scraper {
 
                 do {
 
-                    log(this.config, 1, `${this.config.search_engine_name} scrapes keyword "${keyword}" on page ${this.page_num}`);
-
                     await this.wait_for_results();
+                    log(this.config, 1, `${this.config.search_engine_name} scrapes keyword "${keyword}" on page ${this.page_num} with url ${this.page.url()}`);
 
                     if (this.config.sleep_range) {
                         await this.random_sleep();

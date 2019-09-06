@@ -8,7 +8,7 @@ function log(config, loglevel, msg = null, cb = null) {
             if (typeof msg == 'object') {
                 console.dir(msg, {depth: null, colors: false});
             } else {
-                console.log('[i] ' + msg);
+                console.log('[i] ' + new Date().toISOString() + ' ' + msg);
             }
         } else if (cb) {
             cb();

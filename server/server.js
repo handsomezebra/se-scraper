@@ -28,7 +28,7 @@ const HOST = process.env.HOST || '0.0.0.0';
 const app = express();
 app.use(express.json());
 
-let browser_config = {
+let default_browser_config = {
     random_user_agent: true,
     headless : true,
     debug_level: 1,
@@ -49,6 +49,8 @@ app.post('/', async (req, res) => {
         });
     } else {
         // overwrite standard browser config
+        var browser_config = {}
+        Object.assign(browser_config, default_browser_config);
         Object.assign(browser_config, req.body.browser_config);
 
         var scraper = new se_scraper.ScrapeManager(browser_config);

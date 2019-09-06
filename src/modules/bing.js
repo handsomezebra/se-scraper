@@ -109,6 +109,37 @@ class BingScraper extends Scraper {
     }
 }
 
+class BingDirectScraper extends BingScraper {
+
+    async load_start_page() {
+
+        log(this.config, 1, 'Using empty startUrl');
+
+        return true;
+    }
+
+    async search_keyword(keyword) {
+        let startUrl = 'https://www.bing.com/search?';
+
+        if (this.config.bing_settings) {
+            if (this.config.bing_settings.bing_domain) {
+                startUrl = `https://www.${this.config.bing_settings.bing_domain}/search?`;
+            } else {
+                startUrl = `https://www.bing.com/search?`;
+            }
+
+            for (var key in this.config.bing_settings) {
+                if (key !== 'bing_domain') {
+                    startUrl += `${key}=${this.config.bing_settings[key]}&`
+                }
+            }
+        }
+
+        startUrl += `q=${encodeURIComponent(keyword)}`;
+
+        this.last_response = await this.page.goto(startUrl);
+    }
+}
 
 class BingNewsScraper extends Scraper {
 
@@ -186,4 +217,5 @@ class BingNewsScraper extends Scraper {
 module.exports = {
     BingNewsScraper: BingNewsScraper,
     BingScraper: BingScraper,
+    BingDirectScraper: BingDirectScraper,
 };
