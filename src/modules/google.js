@@ -18,10 +18,26 @@ class GoogleScraper extends Scraper {
         $('#center_col .g').each((i, link) => {
             results.push({
                 link: $(link).find('.r a').attr('href'),
-                title: $(link).find('.r a').text(),
+                title: $(link).find('.r a h3').text(),
                 snippet: $(link).find('span.st').text(),
                 visible_link: $(link).find('.r cite').text(),
                 date: $(link).find('span.f').text() || '',
+            })
+        });
+
+        var people_also_ask = [];
+        $('#center_col .related-question-pair').each((i, element) => {
+            people_also_ask.push({
+                question: $(element).find('.kno-atc').text(),
+                answer: $(element).find('.kno-ahide .mod').text(),
+                link: $(element).find('.kno-ahide .g a').attr("href"),
+            })
+        });
+
+        var related_searches = [];
+        $('#center_col #brs p').each((i, element) => {
+            related_searches.push({
+                query: $(element).text(),
             })
         });
 
@@ -147,6 +163,8 @@ class GoogleScraper extends Scraper {
             effective_query: effective_query,
             right_info: right_side_info,
             results: cleaned,
+            people_also_ask: people_also_ask,
+            related_searches: related_searches,
             top_products: top_products,
             right_products: right_products,
             top_ads: top_ads,
